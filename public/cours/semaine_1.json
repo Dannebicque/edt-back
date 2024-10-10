@@ -1,0 +1,74 @@
+[
+  {
+    "id": 1,
+    "name": "WR118",
+    "professor": "RHU",
+    "group": "s1",
+    "groupIndex": 1,
+    "groupCount": 1,
+    "color": "#cce5ff"
+  },
+  {
+    "id": 2,
+    "name": "WR119",
+    "professor": "JLE",
+    "group": "s3",
+    "groupIndex": 1,
+    "groupCount": 2,
+    "color": "#d4edda"
+  },
+  {
+    "id": 6,
+    "name": "WR104",
+    "professor": "JLE",
+    "group": "s3",
+    "groupIndex": 3,
+    "groupCount": 2,
+    "color": "#d4edda"
+  },
+  {
+    "id": 7,
+    "name": "WR104",
+    "professor": "JLE",
+    "group": "s3",
+    "groupIndex": 5,
+    "groupCount": 2,
+    "color": "#d4edda"
+  },
+  {
+    "id": 8,
+    "name": "WR104",
+    "professor": "RDE",
+    "group": "s3",
+    "groupIndex": 7,
+    "groupCount": 2,
+    "color": "#d4edda"
+  },
+  {
+    "id": 3,
+    "name": "WR101",
+    "professor": "GGA",
+    "group": "s5",
+    "groupIndex": 1,
+    "groupCount": 8,
+    "color": "#f8d7da"
+  },
+  {
+    "id": 4,
+    "name": "WR114",
+    "professor": "PGO",
+    "group": "s1",
+    "groupIndex": 5,
+    "groupCount": 2,
+    "color": "#ffcccc"
+  },
+  {
+    "id": 5,
+    "name": "WR113",
+    "professor": "FME",
+    "group": "s3",
+    "groupIndex": 1,
+    "groupCount": 4,
+    "color": "#ccffcc"
+  }
+]

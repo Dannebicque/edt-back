@@ -71,7 +71,6 @@ class GenereSemainesCommand extends Command
     {
         $weekData = [];
 
-
         for ($i = 0; $i < 5; $i++) {
             $date = (clone $startDate)->modify("+$i day");
             $weekData[] = [
@@ -118,6 +117,7 @@ class GenereSemainesCommand extends Command
             '8h00',
             '9h30',
             '11h00',
+            '12h30',
             '14h00',
             '15h30',
             '17h00',
