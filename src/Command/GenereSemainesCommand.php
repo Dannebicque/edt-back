@@ -55,8 +55,8 @@ class GenereSemainesCommand extends Command
         $this->holidays = $this->getHolidays($startDate->format('Y'));
 
         while ($currentDate < $endDate) {
-            dump($currentDate);
             $weekData = $this->generateWeekData($currentDate, $numSemaines);
+            dump($weekData);
             $this->saveWeekData($weekData, $currentDate, $numSemaines);
             $currentDate->modify('+1 week');
             $numSemaines++;
@@ -70,9 +70,10 @@ class GenereSemainesCommand extends Command
     private function generateWeekData(\DateTime $startDate): array
     {
         $weekData = [];
-
+        $jours = [];
         for ($i = 0; $i < 5; $i++) {
             $date = (clone $startDate)->modify("+$i day");
+            $jours[self::TAB_JOUR[$date->format('l')]] = $date->format('d/m/Y');
             $weekData[] = [
                 'day' => self::TAB_JOUR[$date->format('l')],
                 'date' => $date->format('Y-m-d'),
@@ -81,7 +82,10 @@ class GenereSemainesCommand extends Command
             ];
         }
 
-        return $weekData;
+        return [
+            'jours' => $jours,
+            'days' =>$weekData
+            ];
     }
 
     private function saveWeekData(array $weekData, \DateTime $startDate, int $numSemaine): void
@@ -94,7 +98,7 @@ class GenereSemainesCommand extends Command
 
         // parcourir les jours de la semaine et ajouter des restrictions si c'est un jour férié
         $restrictedSlots = [];
-        foreach ($weekData as $day) {
+        foreach ($weekData['days'] as $day) {
             if ($day['isHoliday']) {
                 $restrictedSlots = $this->addRestrictedSlot($day['day']);
             }
@@ -102,9 +106,10 @@ class GenereSemainesCommand extends Command
 
         $data = [
             "week" => $numSemaine,
-            "days" => $weekData,
             "restrictedSlots" => $restrictedSlots,
         ];
+
+        $data = array_merge($data, $weekData);
 
         $filename = sprintf($this->directory . '/public/semaines/semaine_%s.json', $numSemaine);
         file_put_contents($filename, json_encode($data, JSON_PRETTY_PRINT));

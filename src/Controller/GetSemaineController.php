@@ -31,4 +31,25 @@ class GetSemaineController extends AbstractController
         $semaine = file_get_contents($filename);
         return $this->json(json_decode($semaine));
     }
+
+    #[Route('/get-all-semaines', name: 'app_get_semaines')]
+    public function getAllSemaines(KernelInterface $kernel): JsonResponse
+    {
+        // vérification de la validité du numéro de semaine
+        $directory = $kernel->getProjectDir();
+        $directory = $directory . '/public/semaines/';
+
+        $tSemaines = [];
+
+        // on parcours tous les fichiers, on récupère le numéro de semaine et on l'ajoute au tableau avec les jours
+        foreach (scandir($directory) as $file) {
+            if ($file !== '.' && $file !== '..') {
+                $semaine = file_get_contents($directory . $file);
+                $data = json_decode($semaine, true);
+                $tSemaines[$data['week']] = $data;
+            }
+        }
+
+        return $this->json($tSemaines);
+    }
 }
