@@ -25,7 +25,7 @@ class Professeur
     private ?string $prenom = null;
 
     #[ORM\Column]
-    private ?bool $vacataire = null;
+    private ?bool $vacataire = false;
 
     #[ORM\Column]
     private ?float $service = null;
@@ -73,12 +73,12 @@ class Professeur
 
     public function isVacataire(): ?bool
     {
-        return $this->vacataire;
+        return $this->vacataire ?? false;
     }
 
-    public function setVacataire(bool $vacataire): static
+    public function setVacataire(bool|string $vacataire): static
     {
-        $this->vacataire = $vacataire;
+        $this->vacataire = (bool)$vacataire;
 
         return $this;
     }
