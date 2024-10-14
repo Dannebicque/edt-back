@@ -42,6 +42,9 @@ class Edt
     #[ORM\Column(length: 7)]
     private ?string $color = null;
 
+    #[ORM\Column(length: 10, nullable: true)]
+    private ?string $room = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -146,6 +149,7 @@ class Edt
     public function toArray(): array
     {
         return [
+            'id' => $this->id,
             'day' => $this->day,
             'group' => $this->semestre,
             'groupCount' => $this->groupCount,
@@ -154,6 +158,7 @@ class Edt
             'professor' => $this->professeur,
             'time' => $this->time,
             'week' => $this->week,
+            'room' => $this->room ?? 'A définir',
             'color' => $this->color,
             'blocked' => false,
         ];
@@ -167,6 +172,18 @@ class Edt
     public function setColor(string $color): static
     {
         $this->color = $color;
+
+        return $this;
+    }
+
+    public function getRoom(): ?string
+    {
+        return $this->room;
+    }
+
+    public function setRoom(?string $room): static
+    {
+        $this->room = $room;
 
         return $this;
     }
