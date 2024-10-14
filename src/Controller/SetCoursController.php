@@ -41,7 +41,7 @@ class SetCoursController extends AbstractController
         return $this->json($edt->toArray());
     }
 
-    #[Route('/update-room/{id}', name: 'app_update_room')]
+    #[Route('/update-room/{id}', name: 'app_update_room', methods: ['POST'])]
     public function setRoom(
         Edt                    $id,
         EntityManagerInterface $entityManager,
@@ -59,5 +59,27 @@ class SetCoursController extends AbstractController
         $entityManager->flush();
 
         return $this->json($id->toArray());
+    }
+
+    #[Route('/remove-course/{id}', name: 'app_delete_course', methods: ['POST'])]
+    public function deleteCourse(
+        Edt                    $id,
+        EntityManagerInterface $entityManager,
+        Request                $request): Response
+    {
+        $data = json_decode($request->getContent(), true);
+
+        if (empty($data)) {
+            return $this->json([
+                'message' => 'Données manquantes',
+            ]);
+        }
+
+        $entityManager->remove($id);
+        $entityManager->flush();
+
+        return $this->json([
+            'message' => 'Cours supprimé',
+        ]);
     }
 }
