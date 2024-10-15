@@ -12,7 +12,9 @@ use Symfony\Component\Routing\Attribute\Route;
 class GetCoursSemaineController extends AbstractController
 {
     #[Route('/get-cours-semaine/{numSemaine}', name: 'app_get_cours_semaine')]
-    public function index(int $numSemaine, KernelInterface $kernel): JsonResponse
+    public function index(
+        EdtRepository $edtRepository,
+        int $numSemaine, KernelInterface $kernel): JsonResponse
     {
         // vérification de la validité du numéro de semaine
         if ($numSemaine < 1 || $numSemaine > 52) {
@@ -21,17 +23,12 @@ class GetCoursSemaineController extends AbstractController
             ]);
         }
 
-        $directory = $kernel->getProjectDir();
-        $filename = $directory . '/public/cours/semaine_' . $numSemaine . '.json';
-
-        if (!file_exists($filename)) {
-            return $this->json([
-                'message' => 'Semaine non trouvée',
-            ]);
+        $edts = $edtRepository->findAvailableEventsByWeek($numSemaine);
+        foreach ($edts as $key => $edt) {
+            $edts[$key] = $edt->toArray();
         }
 
-        $semaine = file_get_contents($filename);
-        return $this->json(json_decode($semaine));
+        return $this->json($edts);
     }
 
     #[Route('/get-placed-courses/{numSemaine}', name: 'app_get_placed_cours_semaine')]

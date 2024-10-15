@@ -19,16 +19,16 @@ class Matiere
     private ?string $code = null;
 
     #[ORM\Column]
-    private ?int $nbCm = null;
+    private ?int $nbCm = 0;
 
     #[ORM\Column]
-    private ?int $nbTd = null;
+    private ?int $nbTd = 0;
 
     #[ORM\Column]
-    private ?int $nbTp = null;
+    private ?int $nbTp = 0;
 
     #[ORM\Column]
-    private ?int $nbPtut = null;
+    private ?int $nbPtut = 0;
 
     #[ORM\Column(length: 10)]
     private ?string $couleur = null;

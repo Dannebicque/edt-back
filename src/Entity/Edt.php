@@ -10,6 +10,9 @@ use Doctrine\ORM\Mapping as ORM;
 #[ApiResource]
 class Edt
 {
+    public const NON_PLACE = 'NON_PLACE';
+    public const PLACE = 'PLACE';
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -44,6 +47,9 @@ class Edt
 
     #[ORM\Column(length: 10, nullable: true)]
     private ?string $room = null;
+
+    #[ORM\Column(length: 10)]
+    private ?string $flag = self::NON_PLACE;
 
     public function getId(): ?int
     {
@@ -184,6 +190,18 @@ class Edt
     public function setRoom(?string $room): static
     {
         $this->room = $room;
+
+        return $this;
+    }
+
+    public function getFlag(): ?string
+    {
+        return $this->flag;
+    }
+
+    public function setFlag(string $flag): static
+    {
+        $this->flag = $flag;
 
         return $this;
     }

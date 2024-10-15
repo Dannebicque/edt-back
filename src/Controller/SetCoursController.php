@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Edt;
+use App\Repository\EdtRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,6 +14,7 @@ class SetCoursController extends AbstractController
 {
     #[Route('/place-course', name: 'app_set_cours')]
     public function placeCours(
+        EdtRepository          $edtRepository,
         EntityManagerInterface $entityManager,
         Request                $request): Response
     {
@@ -24,18 +26,16 @@ class SetCoursController extends AbstractController
             ]);
         }
 
-        $edt = new Edt();
-        $edt->setDay($data['day']);
-        $edt->setSemestre($data['semestre']);
-        $edt->setGroupCount($data['groupCount']);
-        $edt->setGroupIndex($data['groupIndex']);
-        $edt->setMatiere($data['matiere']);
-        $edt->setProfesseur($data['professor']);
-        $edt->setTime($data['time']);
-        $edt->setWeek($data['week']);
-        $edt->setColor($data['color']);
+        $id = $data['id'];
+        $edt = $edtRepository->find($id);
 
-        $entityManager->persist($edt);
+        if (!$edt) {
+            return $this->json([
+                'message' => 'Cours non trouvé',
+            ]);
+        }
+        
+        $edt->setFlag(Edt::PLACE);
         $entityManager->flush();
 
         return $this->json($edt->toArray());

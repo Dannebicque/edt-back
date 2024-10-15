@@ -20,7 +20,20 @@ class EdtRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('e')
             ->andWhere('e.week = :numSemaine')
+            ->andWhere('e.flag = :flag')
             ->setParameter('numSemaine', $numSemaine)
+            ->setParameter('flag', Edt::PLACE)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findAvailableEventsByWeek(int $numSemaine)
+    {
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.week = :numSemaine')
+            ->andWhere('e.flag = :flag')
+            ->setParameter('numSemaine', $numSemaine)
+            ->setParameter('flag', Edt::NON_PLACE)
             ->getQuery()
             ->getResult();
     }
