@@ -160,7 +160,7 @@ class Edt
             'group' => $this->semestre,
             'groupCount' => $this->groupCount,
             'groupIndex' => $this->groupIndex,
-            'name' => $this->matiere,
+            'matiere' => $this->matiere,
             'professor' => $this->professeur,
             'time' => $this->time,
             'week' => $this->week,
