@@ -27,6 +27,7 @@ class SetCoursController extends AbstractController
         }
 
         $id = $data['id'];
+        $time = $data['time'];
         $edt = $edtRepository->find($id);
 
         if (!$edt) {
@@ -34,8 +35,9 @@ class SetCoursController extends AbstractController
                 'message' => 'Cours non trouvé',
             ]);
         }
-        
+
         $edt->setFlag(Edt::PLACE);
+        $edt->setTime($time);
         $entityManager->flush();
 
         return $this->json($edt->toArray());
