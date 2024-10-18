@@ -15,9 +15,6 @@ class Progression
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 10)]
-    private ?string $matiere = null;
-
     #[ORM\Column(length: 3)]
     private ?string $professeur = null;
 
@@ -42,6 +39,9 @@ class Progression
     #[ORM\Column(nullable: true)]
     private ?array $progression = null;
 
+    #[ORM\ManyToOne(inversedBy: 'progressions')]
+    private ?Matiere $matiere = null;
+
 
 
     public function __construct()
@@ -51,18 +51,6 @@ class Progression
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getMatiere(): ?string
-    {
-        return $this->matiere;
-    }
-
-    public function setMatiere(?string $matiere = ''): static
-    {
-        $this->matiere = $matiere;
-
-        return $this;
     }
 
     public function getProfesseur(): ?string
@@ -157,6 +145,18 @@ class Progression
     public function setProgression(?array $progression): static
     {
         $this->progression = $progression;
+
+        return $this;
+    }
+
+    public function getMatiere(): ?Matiere
+    {
+        return $this->matiere;
+    }
+
+    public function setMatiere(?Matiere $matiere): static
+    {
+        $this->matiere = $matiere;
 
         return $this;
     }

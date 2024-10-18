@@ -50,7 +50,7 @@ class GetCoursSemaineController extends AbstractController
         /** @var Edt $event */
         foreach ($events as $event) {
             //Lundi_9h30_s3_1
-            $key = $event->getDay() . '_' . $event->getTime() . '_' . $event->getSemestre() . '_' . $event->getGroupIndex();
+            $key = $event->getDay() . '_' . $event->getTime() . '_' . $event->getSemestre()->getNom() . '_' . $event->getGroupIndex();
             $tEvents[$key] = $event->toArray();
         }
 

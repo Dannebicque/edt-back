@@ -32,9 +32,25 @@ class Semestre
     #[ORM\OneToMany(targetEntity: Matiere::class, mappedBy: 'semestre')]
     private Collection $matieres;
 
+    #[ORM\Column]
+    private ?int $sizeCm = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $listeGroupesTd = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $listeGroupesTp = null;
+
+    /**
+     * @var Collection<int, Edt>
+     */
+    #[ORM\OneToMany(targetEntity: Edt::class, mappedBy: 'semestre')]
+    private Collection $edts;
+
     public function __construct()
     {
         $this->matieres = new ArrayCollection();
+        $this->edts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -102,6 +118,72 @@ class Semestre
             // set the owning side to null (unless already changed)
             if ($matiere->getSemestre() === $this) {
                 $matiere->setSemestre(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getSizeCm(): ?int
+    {
+        return $this->sizeCm;
+    }
+
+    public function setSizeCm(int $sizeCm): static
+    {
+        $this->sizeCm = $sizeCm;
+
+        return $this;
+    }
+
+    public function getListeGroupesTd(): ?string
+    {
+        return $this->listeGroupesTd;
+    }
+
+    public function setListeGroupesTd(string $listeGroupesTd): static
+    {
+        $this->listeGroupesTd = $listeGroupesTd;
+
+        return $this;
+    }
+
+    public function getListeGroupesTp(): ?string
+    {
+        return $this->listeGroupesTp;
+    }
+
+    public function setListeGroupesTp(string $listeGroupesTp): static
+    {
+        $this->listeGroupesTp = $listeGroupesTp;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Edt>
+     */
+    public function getEdts(): Collection
+    {
+        return $this->edts;
+    }
+
+    public function addEdt(Edt $edt): static
+    {
+        if (!$this->edts->contains($edt)) {
+            $this->edts->add($edt);
+            $edt->setSemestre($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEdt(Edt $edt): static
+    {
+        if ($this->edts->removeElement($edt)) {
+            // set the owning side to null (unless already changed)
+            if ($edt->getSemestre() === $this) {
+                $edt->setSemestre(null);
             }
         }
 

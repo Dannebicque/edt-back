@@ -28,6 +28,7 @@ class SetCoursController extends AbstractController
 
         $id = $data['id'];
         $time = $data['time'];
+        $day = $data['day'];
         $edt = $edtRepository->find($id);
 
         if (!$edt) {
@@ -37,6 +38,7 @@ class SetCoursController extends AbstractController
         }
 
         $edt->setFlag(Edt::PLACE);
+        $edt->setDay($day);
         $edt->setTime($time);
         $entityManager->flush();
 

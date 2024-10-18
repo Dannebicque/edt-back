@@ -18,11 +18,9 @@ class Edt
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 10)]
+    #[ORM\Column(length: 10, nullable: true)]
     private ?string $day = null;
 
-    #[ORM\Column(length: 10)]
-    private ?string $semestre = null;
 
     #[ORM\Column]
     private ?int $groupCount = null;
@@ -30,13 +28,10 @@ class Edt
     #[ORM\Column]
     private ?int $groupIndex = null;
 
-    #[ORM\Column(length: 10)]
-    private ?string $matiere = null;
-
     #[ORM\Column(length: 5)]
     private ?string $professeur = null;
 
-    #[ORM\Column(length: 5)]
+    #[ORM\Column(length: 5, nullable: true)]
     private ?string $time = null;
 
     #[ORM\Column]
@@ -51,6 +46,15 @@ class Edt
     #[ORM\Column(length: 10)]
     private ?string $flag = self::NON_PLACE;
 
+    #[ORM\ManyToOne(inversedBy: 'edts')]
+    private ?Semestre $semestre = null;
+
+    #[ORM\ManyToOne(inversedBy: 'edts')]
+    private ?Matiere $matiere = null;
+
+    #[ORM\Column(length: 5)]
+    private ?string $num_seance = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -61,21 +65,9 @@ class Edt
         return $this->day;
     }
 
-    public function setDay(string $day): static
+    public function setDay(?string $day): static
     {
         $this->day = $day;
-
-        return $this;
-    }
-
-    public function getSemestre(): ?string
-    {
-        return $this->semestre;
-    }
-
-    public function setSemestre(string $semestre): static
-    {
-        $this->semestre = $semestre;
 
         return $this;
     }
@@ -104,18 +96,6 @@ class Edt
         return $this;
     }
 
-    public function getMatiere(): ?string
-    {
-        return $this->matiere;
-    }
-
-    public function setMatiere(string $matiere): static
-    {
-        $this->matiere = $matiere;
-
-        return $this;
-    }
-
     public function getProfesseur(): ?string
     {
         return $this->professeur;
@@ -133,7 +113,7 @@ class Edt
         return $this->time;
     }
 
-    public function setTime(string $time): static
+    public function setTime(?string $time): static
     {
         $this->time = $time;
 
@@ -157,16 +137,17 @@ class Edt
         return [
             'id' => $this->id,
             'day' => $this->day,
-            'group' => $this->semestre,
+            'group' => $this->semestre->getNom(),
             'groupCount' => $this->groupCount,
             'groupIndex' => $this->groupIndex,
-            'matiere' => $this->matiere,
+            'matiere' => $this->matiere->getCode(),
             'professor' => $this->professeur,
             'time' => $this->time,
             'week' => $this->week,
             'room' => $this->room ?? 'A définir',
-            'color' => $this->color,
+            'color' => $this->matiere->getCouleur(),
             'blocked' => false,
+            'semester' => $this->semestre->getNom(),
         ];
     }
 
@@ -202,6 +183,42 @@ class Edt
     public function setFlag(string $flag): static
     {
         $this->flag = $flag;
+
+        return $this;
+    }
+
+    public function getSemestre(): ?Semestre
+    {
+        return $this->semestre;
+    }
+
+    public function setSemestre(?Semestre $semestre): static
+    {
+        $this->semestre = $semestre;
+
+        return $this;
+    }
+
+    public function getMatiere(): ?Matiere
+    {
+        return $this->matiere;
+    }
+
+    public function setMatiere(?Matiere $matiere): static
+    {
+        $this->matiere = $matiere;
+
+        return $this;
+    }
+
+    public function getNumSeance(): ?string
+    {
+        return $this->num_seance;
+    }
+
+    public function setNumSeance(string $num_seance): static
+    {
+        $this->num_seance = $num_seance;
 
         return $this;
     }
