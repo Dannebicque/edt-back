@@ -7,7 +7,7 @@ use App\Repository\ProgressionRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProgressionRepository::class)]
-#[ApiResource]
+#[ApiResource()]
 class Progression
 {
     #[ORM\Id]
@@ -41,6 +41,9 @@ class Progression
 
     #[ORM\ManyToOne(inversedBy: 'progressions')]
     private ?Matiere $matiere = null;
+
+    #[ORM\ManyToOne(inversedBy: 'progressions')]
+    private ?Semestre $semestre = null;
 
 
 
@@ -157,6 +160,18 @@ class Progression
     public function setMatiere(?Matiere $matiere): static
     {
         $this->matiere = $matiere;
+
+        return $this;
+    }
+
+    public function getSemestre(): ?Semestre
+    {
+        return $this->semestre;
+    }
+
+    public function setSemestre(?Semestre $semestre): static
+    {
+        $this->semestre = $semestre;
 
         return $this;
     }

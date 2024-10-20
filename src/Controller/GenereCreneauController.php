@@ -19,7 +19,6 @@ class GenereCreneauController extends AbstractController
     {
         //récupérer la progression et générer les créneaux dans l'EDT pour pouvoir les placer ensuite
         $progressions = $progressionRepository->findAll();
-        $edts = [];
         foreach ($progressions as $progression) {
             //parcours l'ensemble des créneaux de la progression
             foreach ($progression->getProgression() as $week => $prog) {
@@ -27,7 +26,6 @@ class GenereCreneauController extends AbstractController
                 $seances = explode(' ', $prog);
                 dump($seances);
                 foreach ($seances as $seance) {
-                    dump($seance);
                     $semestre = $progression->getMatiere()?->getSemestre();
 
                     if ($semestre !== null) {
@@ -44,7 +42,6 @@ class GenereCreneauController extends AbstractController
                             $nbGroupes = explode(' ', $nbGroupes);
 
                             foreach ($nbGroupes as $groupe) {
-                                dump($groupe);
                                 $index = $this->getIndexFromGroupe($groupe);
                                 $this->generateEdt($entityManager, $progression, $week, $index, 'TD', $seance);
                             }

@@ -79,7 +79,7 @@ class SetCoursController extends AbstractController
             ]);
         }
 
-        $entityManager->remove($id);
+        $id->setFlag(Edt::NON_PLACE);
         $entityManager->flush();
 
         return $this->json([

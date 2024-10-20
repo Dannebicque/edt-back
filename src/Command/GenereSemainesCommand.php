@@ -84,8 +84,8 @@ class GenereSemainesCommand extends Command
 
         return [
             'jours' => $jours,
-            'days' =>$weekData
-            ];
+            'days' => $weekData
+        ];
     }
 
     private function saveWeekData(array $weekData, \DateTime $startDate, int $numSemaine): void
@@ -117,25 +117,24 @@ class GenereSemainesCommand extends Command
 
     private function addRestrictedSlot(string $day): array
     {
-        $restrictedSlots = [];
-        $slots = [
-            '8h00',
-            '9h30',
-            '11h00',
-            '12h30',
-            '14h00',
-            '15h30',
-            '17h00',
-        ];
+//        $restrictedSlots = [];
+//        $slots = [
+//            '8h00',
+//            '9h30',
+//            '11h00',
+//            '12h30',
+//            '14h00',
+//            '15h30',
+//            '17h00',
+//        ];
 
-        foreach ($slots as $slot) {
-            $restrictedSlots[] = [
-                'type' => 'generic',
-                'motif' => 'Jour férié',
-                'slot' => $slot,
-                'days' => [$day],
-            ];
-        }
+//        foreach ($slots as $slot) {
+        $restrictedSlots['all'][] = [
+            'type' => 'full-day',
+            'motif' => 'Jour férié',
+            'days' => [$day],
+        ];
+//        }
 
         return $restrictedSlots;
     }

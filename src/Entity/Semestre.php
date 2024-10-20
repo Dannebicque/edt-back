@@ -47,10 +47,17 @@ class Semestre
     #[ORM\OneToMany(targetEntity: Edt::class, mappedBy: 'semestre')]
     private Collection $edts;
 
+    /**
+     * @var Collection<int, Progression>
+     */
+    #[ORM\OneToMany(targetEntity: Progression::class, mappedBy: 'semestre')]
+    private Collection $progressions;
+
     public function __construct()
     {
         $this->matieres = new ArrayCollection();
         $this->edts = new ArrayCollection();
+        $this->progressions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -184,6 +191,36 @@ class Semestre
             // set the owning side to null (unless already changed)
             if ($edt->getSemestre() === $this) {
                 $edt->setSemestre(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Progression>
+     */
+    public function getProgressions(): Collection
+    {
+        return $this->progressions;
+    }
+
+    public function addProgression(Progression $progression): static
+    {
+        if (!$this->progressions->contains($progression)) {
+            $this->progressions->add($progression);
+            $progression->setSemestre($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProgression(Progression $progression): static
+    {
+        if ($this->progressions->removeElement($progression)) {
+            // set the owning side to null (unless already changed)
+            if ($progression->getSemestre() === $this) {
+                $progression->setSemestre(null);
             }
         }
 
