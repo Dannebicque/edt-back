@@ -94,7 +94,7 @@ class GenereCreneauController extends AbstractController
         $edt->setGroupIndex($start);
         $edt->setMatiere($progression->getMatiere());
         $edt->setProfesseur($progression->getProfesseur());
-        $edt->setWeek((int)$week+1);
+        $edt->setWeek((int)$week);
         $edt->setColor($progression->getMatiere()?->getCouleur());
         $edt->setFlag(Edt::NON_PLACE);
         $edt->setRoom(null);
